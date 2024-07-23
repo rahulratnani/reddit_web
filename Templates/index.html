@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reddit Search</h1>
+        <form action="/search" method="get">
+            <div class="form-group">
+                <label for="keyword">Keyword:</label>
+                <input type="text" id="keyword" name="keyword" value="{{ previous_keyword }}" required>
+            </div>
+            <div class="form-group">
+                <label for="filterType">Filter Type:</label>
+                <select id="filterType" name="filterType">
+                    <option value="hot" {% if previous_filter_type == 'hot' %}selected{% endif %}>Hot</option>
+                    <option value="new" {% if previous_filter_type == 'new' %}selected{% endif %}>New</option>
+                    <option value="top" {% if previous_filter_type == 'top' %}selected{% endif %}>Top</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="timeFilter">Time Filter:</label>
+                <select id="timeFilter" name="timeFilter">
+                    <option value="all" {% if previous_time_filter == 'all' %}selected{% endif %}>All</option>
+                    <option value="day" {% if previous_time_filter == 'day' %}selected{% endif %}>Day</option>
+                    <option value="hour" {% if previous_time_filter == 'hour' %}selected{% endif %}>Hour</option>
+                    <option value="month" {% if previous_time_filter == 'month' %}selected{% endif %}>Month</option>
+                    <option value="week" {% if previous_time_filter == 'week' %}selected{% endif %}>Week</option>
+                    <option value="year" {% if previous_time_filter == 'year' %}selected{% endif %}>Year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Search</button>
+                <button type="button" onclick="location.href='/reset'">Reset</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+
