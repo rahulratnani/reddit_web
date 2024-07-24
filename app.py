@@ -15,11 +15,11 @@ reddit_user_agent = 'getPosts by u/Repulsive-Wolf70022'
 
 # MySQL database configuration
 db_config = {
-    'host': 'localhost',
+    'host': 'mysql',  # Use the MySQL container name
     'user': 'root',
     'password': 'mysql_rahul99',
     'database': 'reddit_search_2',
-    'port': 3306,  # Ensure this matches your MySQL port
+    'port': 3306,
     'auth_plugin': 'mysql_native_password',
     'charset': 'utf8mb4'
 }
@@ -31,27 +31,34 @@ reddit = praw.Reddit(client_id=reddit_client_id,
 
 # Connect to MySQL database
 def get_db_connection():
-    conn = mysql.connector.connect(**db_config)
-    cursor = conn.cursor()
-    return conn, cursor
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+        return conn, cursor
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+        raise
 
 # Create results table if not exists
-conn, cursor = get_db_connection()
-create_table_query = """
-CREATE TABLE IF NOT EXISTS results_2 (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    keyword VARCHAR(255),
-    title TEXT,
-    description TEXT,
-    url TEXT,
-    comments_count INT,
-    keyword_count_in_comments INT
-);
-"""
-cursor.execute(create_table_query)
-conn.commit()
-cursor.close()
-conn.close()
+def initialize_database():
+    conn, cursor = get_db_connection()
+    create_table_query = """
+    CREATE TABLE IF NOT EXISTS results_2 (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        keyword VARCHAR(255),
+        title TEXT,
+        description TEXT,
+        url TEXT,
+        comments_count INT,
+        keyword_count_in_comments INT
+    );
+    """
+    cursor.execute(create_table_query)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+initialize_database()
 
 @app.route('/')
 def index():
@@ -71,7 +78,7 @@ def search_reddit():
 
     try:
         subreddit = reddit.subreddit('all')
-        
+
         if time_filter == 'week':
             posts = subreddit.search(query=keyword, time_filter='week', sort=filter_type)
         elif time_filter == 'month':
@@ -126,10 +133,4 @@ def reset_search():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-
-
-
+    app.run(debug=True, host='0.0.0.0')
