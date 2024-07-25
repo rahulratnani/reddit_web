@@ -19,7 +19,7 @@ db_config = {
     'user': 'root',
     'password': 'mysql_rahul99',
     'database': 'reddit_search_2',
-    'port': 3306,  # Ensure this matches your MySQL port
+    'port': 3306,
     'auth_plugin': 'mysql_native_password',
     'charset': 'utf8mb4'
 }
@@ -127,4 +127,3 @@ def reset_search():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
