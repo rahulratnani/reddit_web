@@ -7,10 +7,10 @@ from io import BytesIO
 import pandas as pd
 import os
 
-app = Flask(__name__, template_folder="templates")
+application = Flask(__name__, template_folder="templates")
 
 # Flask-Caching configuration
-cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT': 300})
+cache = Cache(application, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT': 300})
 
 # Reddit API credentials
 reddit_client_id = os.getenv('REDDIT_CLIENT_ID', '4CPn1Knc9rqks_T-HTMAjA')
@@ -67,22 +67,38 @@ def initialize_database():
         finally:
             cursor.close()
             conn.close()
+<<<<<<< HEAD
+
+initialize_database()
+=======
+>>>>>>> 83e92bd (Save local changes before pulling latest updates)
 
 initialize_database()
 
-@app.route('/')
+@application.route('/')
 def index():
     previous_keyword = request.args.get('keyword', '')
     previous_filter_type = request.args.get('filterType', 'hot')
     previous_time_filter = request.args.get('timeFilter', 'week')
+<<<<<<< HEAD
+=======
+    previous_language = request.args.get('language', '')
+    previous_country = request.args.get('country', '')
+>>>>>>> 83e92bd (Save local changes before pulling latest updates)
     return render_template(
         'index.html',
         previous_keyword=previous_keyword,
         previous_filter_type=previous_filter_type,
+<<<<<<< HEAD
         previous_time_filter=previous_time_filter
+=======
+        previous_time_filter=previous_time_filter,
+        previous_language=previous_language,
+        previous_country=previous_country
+>>>>>>> 83e92bd (Save local changes before pulling latest updates)
     )
 
-@app.route('/search', methods=['GET'])
+@application.route('/search', methods=['GET'])
 @cache.cached(timeout=300, query_string=True)
 def search_reddit():
     keyword = request.args.get('keyword', '').strip()
@@ -96,6 +112,7 @@ def search_reddit():
 
     try:
         subreddit = reddit.subreddit('all')
+<<<<<<< HEAD
         if time_filter == 'week':
             posts = subreddit.search(query=keyword, sort=filter_type, time_filter='week')
         elif time_filter == 'month':
@@ -106,6 +123,9 @@ def search_reddit():
             posts = subreddit.top(limit=100)
         else:
             posts = subreddit.search(query=keyword, sort=filter_type)
+=======
+        posts = subreddit.search(query=keyword, sort=filter_type, time_filter=time_filter)
+>>>>>>> 83e92bd (Save local changes before pulling latest updates)
 
         results = []
         conn, cursor = get_db_connection()
@@ -117,7 +137,15 @@ def search_reddit():
                         if cursor.fetchone():
                             continue
 
+<<<<<<< HEAD
                         keyword_count_in_comments = sum(1 for comment in post.comments.list() if hasattr(comment, 'body') and keyword.lower() in comment.body.lower())
+=======
+                        keyword_count_in_comments = 0
+                        post.comments.replace_more(limit=0)
+                        for comment in post.comments.list():
+                            if keyword.lower() in comment.body.lower():
+                                keyword_count_in_comments += 1
+>>>>>>> 83e92bd (Save local changes before pulling latest updates)
 
                         insert_query = """
                         INSERT INTO results_2 (keyword, title, description, url, comments_count, keyword_count_in_comments)
@@ -173,11 +201,15 @@ def search_reddit():
         print(f"Error: {e}")
         return render_template('error.html', error_message=f'An error occurred while searching: {str(e)}')
 
-@app.route('/reset')
+@application.route('/reset')
 def reset_search():
     return redirect(url_for('index'))
 
+<<<<<<< HEAD
 @app.route('/save_report', methods=['GET'])
+=======
+@application.route('/save_report', methods=['GET'])
+>>>>>>> 83e92bd (Save local changes before pulling latest updates)
 def save_report():
     keyword = request.args.get('keyword', '')
 
@@ -218,6 +250,7 @@ def save_report():
         return render_template('error.html', error_message='Unable to connect to the database.')
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     app.run(debug=True)
 <<<<<<< HEAD
 =======
@@ -309,3 +342,6 @@ if __name__ == '__main__':
     application.run()
 >>>>>>> origin/master
 >>>>>>> origin/master
+=======
+    application.run(debug=True)
+>>>>>>> 83e92bd (Save local changes before pulling latest updates)
