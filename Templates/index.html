@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Search</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 1rem;
+        }
+        input[type="text"],
+        select,
+        button {
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .pagination {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .pagination a,
+        .pagination span {
+            margin: 0 0.25rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .pagination a:hover {
+            background-color: #f2f2f2;
+        }
+        .pagination .disabled {
+            color: #ccc;
+        }
+        .credentials {
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Reddit Search Application</h1>
+    </header>
+    <div class="container">
+        <form action="{{ url_for('search_reddit') }}" method="get">
+            <label for="keyword">Search Keyword:</label>
+            <input type="text" id="keyword" name="keyword" value="{{ request.args.get('keyword', '') }}" required>
+
+            <label for="filterType">Sort by:</label>
+            <select id="filterType" name="filterType">
+                <option value="hot" {% if request.args.get('filterType', 'hot') == 'hot' %}selected{% endif %}>Hot</option>
+                <option value="new" {% if request.args.get('filterType', 'hot') == 'new' %}selected{% endif %}>New</option>
+                <option value="top" {% if request.args.get('filterType', 'hot') == 'top' %}selected{% endif %}>Top</option>
+            </select>
+
+            <label for="timeFilter">Time Filter:</label>
+            <select id="timeFilter" name="timeFilter">
+                <option value="day" {% if request.args.get('timeFilter', 'week') == 'day' %}selected{% endif %}>Day</option>
+                <option value="week" {% if request.args.get('timeFilter', 'week') == 'week' %}selected{% endif %}>Week</option>
+                <option value="month" {% if request.args.get('timeFilter', 'week') == 'month' %}selected{% endif %}>Month</option>
+                <option value="year" {% if request.args.get('timeFilter', 'week') == 'year' %}selected{% endif %}>Year</option>
+                <option value="all" {% if request.args.get('timeFilter', 'week') == 'all' %}selected{% endif %}>All Time</option>
+            </select>
+
+            <label for="language">Language:</label>
+            <select id="language" name="language">
+                <option value="en" {% if request.args.get('language', 'en') == 'en' %}selected{% endif %}>English</option>
+                <option value="es" {% if request.args.get('language', 'en') == 'es' %}selected{% endif %}>Spanish</option>
+                <option value="fr" {% if request.args.get('language', 'en') == 'fr' %}selected{% endif %}>French</option>
+                <option value="de" {% if request.args.get('language', 'en') == 'de' %}selected{% endif %}>German</option>
+                <option value="ja" {% if request.args.get('language', 'en') == 'ja' %}selected{% endif %}>Japanese</option>
+                <option value="zh" {% if request.args.get('language', 'en') == 'zh' %}selected{% endif %}>Chinese</option>
+                <!-- Add more languages as needed -->
+            </select>
+
+            <label for="country">Country:</label>
+            <select id="country" name="country">
+                <option value="all" {% if request.args.get('country', 'all') == 'all' %}selected{% endif %}>All</option>
+                <option value="us" {% if request.args.get('country', 'all') == 'us' %}selected{% endif %}>United States</option>
+                <option value="gb" {% if request.args.get('country', 'all') == 'gb' %}selected{% endif %}>United Kingdom</option>
+                <option value="ca" {% if request.args.get('country', 'all') == 'ca' %}selected{% endif %}>Canada</option>
+                <option value="au" {% if request.args.get('country', 'all') == 'au' %}selected{% endif %}>Australia</option>
+                <option value="in" {% if request.args.get('country', 'all') == 'in' %}selected{% endif %}>India</option>
+                <!-- Add more countries as needed -->
+            </select>
+
+            <button type="submit">Search</button>
+        </form>
+        <a href="{{ url_for('reset_search') }}">Reset Search</a>
+        <div class="credentials">
+            <p>Built with Flask and PRAW. Data sourced from Reddit.</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
