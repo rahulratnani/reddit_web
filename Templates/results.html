@@ -99,6 +99,10 @@
         .button:hover {
             background-color: #0056b3;
         }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
         @media (max-width: 768px) {
             .container {
                 width: 95%;
@@ -118,7 +122,7 @@
         <h1>Search Results for "{{ keyword }}"</h1>
         {% if error %}
         <p class="error-message">An error occurred while interacting with the database.</p>
-        <a class="button" href="{{ url_for('search_reddit') }}">Go Back to Search</a>
+        <a class="button" href="{{ url_for('search_reddit') }}" aria-label="Go Back to Search">Go Back to Search</a>
         {% else %}
         {% if posts %}
         <div style="overflow-x:auto;">
@@ -148,7 +152,7 @@
 
         <div class="pagination">
             {% if pagination.prev %}
-            <a href="{{ url_for('search_reddit', keyword=keyword, filterType=filterType, timeFilter=timeFilter, language=language, country=country, page=pagination.prev) }}">« Previous</a>
+            <a href="{{ url_for('search_reddit', keyword=keyword, filterType=filterType, timeFilter=timeFilter, language=language, country=country, page=pagination.prev) }}" aria-label="Previous Page">« Previous</a>
             {% else %}
             <span class="disabled">« Previous</span>
             {% endif %}
@@ -156,29 +160,25 @@
                 {% if page_num == pagination.current %}
                 <span class="active">{{ page_num }}</span>
                 {% else %}
-                <a href="{{ url_for('search_reddit', keyword=keyword, filterType=filterType, timeFilter=timeFilter, language=language, country=country, page=page_num) }}">{{ page_num }}</a>
+                <a href="{{ url_for('search_reddit', keyword=keyword, filterType=filterType, timeFilter=timeFilter, language=language, country=country, page=page_num) }}" aria-label="Page {{ page_num }}">{{ page_num }}</a>
                 {% endif %}
             {% endfor %}
             {% if pagination.next %}
-            <a href="{{ url_for('search_reddit', keyword=keyword, filterType=filterType, timeFilter=timeFilter, language=language, country=country, page=pagination.next) }}">Next »</a>
+            <a href="{{ url_for('search_reddit', keyword=keyword, filterType=filterType, timeFilter=timeFilter, language=language, country=country, page=pagination.next) }}" aria-label="Next Page">Next »</a>
             {% else %}
             <span class="disabled">Next »</span>
             {% endif %}
         </div>
 
         <div class="button-container">
-            <a class="button" href="{{ url_for('save_report', keyword=keyword) }}">Save Report</a>
-            <a class="button" href="{{ url_for('reset_search') }}">New Search</a>
+            <a class="button" href="{{ url_for('save_report', keyword=keyword) }}" aria-label="Save Report">Save Report</a>
+            <a class="button" href="{{ url_for('reset_search') }}" aria-label="New Search">New Search</a>
         </div>
         {% else %}
         <p>No results found.</p>
-        <a class="button" href="{{ url_for('reset_search') }}">New Search</a>
+        <a class="button" href="{{ url_for('reset_search') }}" aria-label="New Search">New Search</a>
         {% endif %}
         {% endif %}
     </div>
 </body>
 </html>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
