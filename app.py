@@ -75,15 +75,11 @@ def index():
     previous_keyword = request.args.get('keyword', '')
     previous_filter_type = request.args.get('filterType', 'hot')
     previous_time_filter = request.args.get('timeFilter', 'week')
-    previous_language = request.args.get('language', '')
-    previous_country = request.args.get('country', '')
     return render_template(
         'index.html',
         previous_keyword=previous_keyword,
         previous_filter_type=previous_filter_type,
-        previous_time_filter=previous_time_filter,
-        previous_language=previous_language,
-        previous_country=previous_country
+        previous_time_filter=previous_time_filter
     )
 
 @app.route('/search', methods=['GET'])
@@ -223,3 +219,93 @@ def save_report():
 
 if __name__ == '__main__':
     app.run(debug=True)
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+@app.route('/reset')
+def reset_search():
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    application.run()
+>>>>>>> origin/master
+>>>>>>> origin/master
