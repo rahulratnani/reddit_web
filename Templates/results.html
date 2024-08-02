@@ -4,19 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results</title>
-<<<<<<< HEAD
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-=======
->>>>>>> origin/master
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-<<<<<<< HEAD
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -41,40 +37,15 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             flex: 1;
-=======
-        }
-        .container {
-            max-width: 1200px; /* Increased max-width for wider content */
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow-x: auto; /* Allow horizontal scrolling */
         }
         h1 {
             text-align: center;
             color: #333;
-            margin-bottom: 20px; /* Added margin below heading */
->>>>>>> origin/master
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-<<<<<<< HEAD
-            table-layout: auto;
-            overflow: auto;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-=======
             margin-bottom: 20px;
         }
         table, th, td {
@@ -83,29 +54,31 @@
         th, td {
             padding: 10px;
             text-align: left;
-            word-wrap: break-word; /* Wrap long words */
+            word-wrap: break-word;
         }
         th {
             background-color: #f2f2f2;
             position: sticky;
             top: 0;
             z-index: 1;
->>>>>>> origin/master
         }
         .pagination {
             text-align: center;
             margin-top: 20px;
-<<<<<<< HEAD
         }
         .pagination a {
             margin: 0 5px;
+            padding: 10px 15px;
             text-decoration: none;
-            color: #333;
-            font-weight: bold;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
         }
-        .pagination a.disabled {
-            color: #ccc;
-            cursor: not-allowed;
+        .pagination a.active {
+            background-color: #0056b3;
+        }
+        .pagination a:hover {
+            background-color: #0056b3;
         }
         .error-message {
             color: red;
@@ -135,9 +108,6 @@
                 font-size: 14px;
             }
         }
-        .scroll-container {
-            overflow-x: auto;
-        }
     </style>
 </head>
 <body>
@@ -145,12 +115,13 @@
         <h1>Reddit Search Results</h1>
     </header>
     <div class="container">
+        <h1>Search Results for "{{ keyword }}"</h1>
         {% if error %}
         <p class="error-message">An error occurred while interacting with the database.</p>
         <a class="button" href="{{ url_for('search_reddit') }}">Go Back to Search</a>
         {% else %}
         {% if posts %}
-        <div class="scroll-container">
+        <div style="overflow-x:auto;">
             <table>
                 <thead>
                     <tr>
@@ -183,7 +154,7 @@
             {% endif %}
             {% for page_num in pagination.pages %}
                 {% if page_num == pagination.current %}
-                <span>{{ page_num }}</span>
+                <span class="active">{{ page_num }}</span>
                 {% else %}
                 <a href="{{ url_for('search_reddit', keyword=keyword, filterType=filterType, timeFilter=timeFilter, language=language, country=country, page=page_num) }}">{{ page_num }}</a>
                 {% endif %}
@@ -204,95 +175,10 @@
         <a class="button" href="{{ url_for('reset_search') }}">New Search</a>
         {% endif %}
         {% endif %}
-=======
-            margin-bottom: 20px; /* Added margin at bottom */
-        }
-        .pagination a {
-            margin: 0 5px;
-            padding: 10px 15px;
-            text-decoration: none;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-        }
-        .pagination a.active {
-            background-color: #0056b3;
-        }
-        .pagination a:hover {
-            background-color: #0056b3;
-        }
-        a {
-            color: #007bff;
-        }
-        a:hover {
-            color: #0056b3;
-            text-decoration: none;
-        }
-        .loading-indicator {
-            display: none;
-            text-align: center;
-            font-size: 20px;
-            color: #007bff;
-        }
-    </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var loadingIndicator = document.getElementById("loading-indicator");
-            loadingIndicator.style.display = "block";
-            setTimeout(function() {
-                loadingIndicator.style.display = "none";
-            }, 2000);
-        });
-    </script>
-</head>
-<body>
-    <div class="container">
-        <h1>Search Results for "{{ keyword }}"</h1>
-        <div id="loading-indicator" class="loading-indicator">Loading...</div>
-        {% if results %}
-        <div style="overflow-x:auto;">
-        <table>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>URL</th>
-                <th>Comments Count</th>
-                <th>Keyword Count in Comments</th>
-            </tr>
-            {% for result in results %}
-            <tr>
-                <td>{{ result.title }}</td>
-                <td>{{ result.description }}</td>
-                <td><a href="{{ result.url }}" target="_blank">{{ result.url }}</a></td>
-                <td>{{ result.comments_count }}</td>
-                <td>{{ result.keyword_count_in_comments }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        </div>
-        {% else %}
-        <p>No results found.</p>
-        {% endif %}
-        
-        {% if total_pages > 1 %}
-        <div class="pagination">
-            {% if page > 1 %}
-            <a href="/search?keyword={{ keyword }}&filterType={{ filterType }}&timeFilter={{ timeFilter }}&page={{ page - 1 }}">Previous</a>
-            {% endif %}
-            {% for i in range(1, total_pages + 1) %}
-            <a href="/search?keyword={{ keyword }}&filterType={{ filterType }}&timeFilter={{ timeFilter }}&page={{ i }}" class="{{ 'active' if page == i else '' }}">{{ i }}</a>
-            {% endfor %}
-            {% if page < total_pages %}
-            <a href="/search?keyword={{ keyword }}&filterType={{ filterType }}&timeFilter={{ timeFilter }}&page={{ page + 1 }}">Next</a>
-            {% endif %}
-        </div>
-        {% endif %}
-        <p><a href="/?keyword={{ keyword }}&filterType={{ filterType }}&timeFilter={{ timeFilter }}">Back to search</a></p>
-        <p><a href="/reset">Reset Search</a></p>
->>>>>>> origin/master
     </div>
 </body>
 </html>
+
 
 
 
