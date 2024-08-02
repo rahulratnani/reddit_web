@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reddit Search</title>
-<<<<<<< HEAD
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -34,40 +33,6 @@
             display: flex;
             flex-direction: column;
         }
-        label {
-            margin-top: 1rem;
-        }
-        input[type="text"],
-        select,
-        button {
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-=======
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
         .form-group {
             margin-bottom: 15px;
         }
@@ -76,24 +41,26 @@
             margin-bottom: 5px;
             color: #333;
         }
-        input, select, button {
+        input[type="text"],
+        select,
+        button {
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
+            margin-top: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
         button {
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
->>>>>>> origin/master
         }
         button:hover {
             background-color: #0056b3;
         }
-<<<<<<< HEAD
         table {
             width: 100%;
             border-collapse: collapse;
@@ -133,6 +100,12 @@
             font-size: 0.875rem;
             color: #555;
         }
+        @media (max-width: 600px) {
+            .container {
+                margin: 1rem;
+                padding: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -141,148 +114,56 @@
     </header>
     <div class="container">
         <form action="{{ url_for('search_reddit') }}" method="get">
-            <label for="keyword">Search Keyword:</label>
-            <input type="text" id="keyword" name="keyword" value="{{ request.args.get('keyword', '') }}" required>
-
-            <label for="filterType">Sort by:</label>
-            <select id="filterType" name="filterType">
-                <option value="hot" {% if request.args.get('filterType', 'hot') == 'hot' %}selected{% endif %}>Hot</option>
-                <option value="new" {% if request.args.get('filterType', 'hot') == 'new' %}selected{% endif %}>New</option>
-                <option value="top" {% if request.args.get('filterType', 'hot') == 'top' %}selected{% endif %}>Top</option>
-            </select>
-
-            <label for="timeFilter">Time Filter:</label>
-            <select id="timeFilter" name="timeFilter">
-                <option value="day" {% if request.args.get('timeFilter', 'week') == 'day' %}selected{% endif %}>Day</option>
-                <option value="week" {% if request.args.get('timeFilter', 'week') == 'week' %}selected{% endif %}>Week</option>
-                <option value="month" {% if request.args.get('timeFilter', 'week') == 'month' %}selected{% endif %}>Month</option>
-                <option value="year" {% if request.args.get('timeFilter', 'week') == 'year' %}selected{% endif %}>Year</option>
-                <option value="all" {% if request.args.get('timeFilter', 'week') == 'all' %}selected{% endif %}>All Time</option>
-            </select>
-
-            <label for="language">Language:</label>
-            <select id="language" name="language">
-                <option value="en" {% if request.args.get('language', 'en') == 'en' %}selected{% endif %}>English</option>
-                <option value="es" {% if request.args.get('language', 'en') == 'es' %}selected{% endif %}>Spanish</option>
-                <option value="fr" {% if request.args.get('language', 'en') == 'fr' %}selected{% endif %}>French</option>
-                <option value="de" {% if request.args.get('language', 'en') == 'de' %}selected{% endif %}>German</option>
-                <option value="ja" {% if request.args.get('language', 'en') == 'ja' %}selected{% endif %}>Japanese</option>
-                <option value="zh" {% if request.args.get('language', 'en') == 'zh' %}selected{% endif %}>Chinese</option>
-                <!-- Add more languages as needed -->
-            </select>
-
-            <label for="country">Country:</label>
-            <select id="country" name="country">
-                <option value="all" {% if request.args.get('country', 'all') == 'all' %}selected{% endif %}>All</option>
-                <option value="us" {% if request.args.get('country', 'all') == 'us' %}selected{% endif %}>United States</option>
-                <option value="gb" {% if request.args.get('country', 'all') == 'gb' %}selected{% endif %}>United Kingdom</option>
-                <option value="ca" {% if request.args.get('country', 'all') == 'ca' %}selected{% endif %}>Canada</option>
-                <option value="au" {% if request.args.get('country', 'all') == 'au' %}selected{% endif %}>Australia</option>
-                <option value="in" {% if request.args.get('country', 'all') == 'in' %}selected{% endif %}>India</option>
-                <!-- Add more countries as needed -->
-            </select>
-
-            <button type="submit">Search</button>
-        </form>
-        <a href="{{ url_for('reset_search') }}">Reset Search</a>
-        <div class="credentials">
-            <p>Built with Flask and PRAW. Data sourced from Reddit.</p>
-        </div>
-=======
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Reddit Search</h1>
-        <form action="/search" method="get">
             <div class="form-group">
-                <label for="keyword">Keyword:</label>
-                <input type="text" id="keyword" name="keyword" value="{{ previous_keyword }}" required>
+                <label for="keyword">Search Keyword:</label>
+                <input type="text" id="keyword" name="keyword" value="{{ request.args.get('keyword', '') }}" required aria-label="Search Keyword">
             </div>
             <div class="form-group">
-                <label for="filterType">Filter Type:</label>
-                <select id="filterType" name="filterType">
-                    <option value="hot" {% if previous_filter_type == 'hot' %}selected{% endif %}>Hot</option>
-                    <option value="new" {% if previous_filter_type == 'new' %}selected{% endif %}>New</option>
-                    <option value="top" {% if previous_filter_type == 'top' %}selected{% endif %}>Top</option>
+                <label for="filterType">Sort by:</label>
+                <select id="filterType" name="filterType" aria-label="Sort by">
+                    <option value="hot" {% if request.args.get('filterType', 'hot') == 'hot' %}selected{% endif %}>Hot</option>
+                    <option value="new" {% if request.args.get('filterType', 'hot') == 'new' %}selected{% endif %}>New</option>
+                    <option value="top" {% if request.args.get('filterType', 'hot') == 'top' %}selected{% endif %}>Top</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="timeFilter">Time Filter:</label>
-                <select id="timeFilter" name="timeFilter">
-                    <option value="all" {% if previous_time_filter == 'all' %}selected{% endif %}>All</option>
-                    <option value="day" {% if previous_time_filter == 'day' %}selected{% endif %}>Day</option>
-                    <option value="hour" {% if previous_time_filter == 'hour' %}selected{% endif %}>Hour</option>
-                    <option value="month" {% if previous_time_filter == 'month' %}selected{% endif %}>Month</option>
-                    <option value="week" {% if previous_time_filter == 'week' %}selected{% endif %}>Week</option>
-                    <option value="year" {% if previous_time_filter == 'year' %}selected{% endif %}>Year</option>
+                <select id="timeFilter" name="timeFilter" aria-label="Time Filter">
+                    <option value="day" {% if request.args.get('timeFilter', 'week') == 'day' %}selected{% endif %}>Day</option>
+                    <option value="week" {% if request.args.get('timeFilter', 'week') == 'week' %}selected{% endif %}>Week</option>
+                    <option value="month" {% if request.args.get('timeFilter', 'week') == 'month' %}selected{% endif %}>Month</option>
+                    <option value="year" {% if request.args.get('timeFilter', 'week') == 'year' %}selected{% endif %}>Year</option>
+                    <option value="all" {% if request.args.get('timeFilter', 'week') == 'all' %}selected{% endif %}>All Time</option>
                 </select>
             </div>
             <div class="form-group">
-                <button type="submit">Search</button>
-                <button type="button" onclick="location.href='/reset'">Reset</button>
+                <label for="language">Language:</label>
+                <select id="language" name="language" aria-label="Language">
+                    <option value="en" {% if request.args.get('language', 'en') == 'en' %}selected{% endif %}>English</option>
+                    <option value="es" {% if request.args.get('language', 'en') == 'es' %}selected{% endif %}>Spanish</option>
+                    <option value="fr" {% if request.args.get('language', 'en') == 'fr' %}selected{% endif %}>French</option>
+                    <option value="de" {% if request.args.get('language', 'en') == 'de' %}selected{% endif %}>German</option>
+                    <option value="ja" {% if request.args.get('language', 'en') == 'ja' %}selected{% endif %}>Japanese</option>
+                    <option value="zh" {% if request.args.get('language', 'en') == 'zh' %}selected{% endif %}>Chinese</option>
+                </select>
             </div>
+            <div class="form-group">
+                <label for="country">Country:</label>
+                <select id="country" name="country" aria-label="Country">
+                    <option value="all" {% if request.args.get('country', 'all') == 'all' %}selected{% endif %}>All</option>
+                    <option value="us" {% if request.args.get('country', 'all') == 'us' %}selected{% endif %}>United States</option>
+                    <option value="gb" {% if request.args.get('country', 'all') == 'gb' %}selected{% endif %}>United Kingdom</option>
+                    <option value="ca" {% if request.args.get('country', 'all') == 'ca' %}selected{% endif %}>Canada</option>
+                    <option value="au" {% if request.args.get('country', 'all') == 'au' %}selected{% endif %}>Australia</option>
+                    <option value="in" {% if request.args.get('country', 'all') == 'in' %}selected{% endif %}>India</option>
+                </select>
+            </div>
+            <button type="submit">Search</button>
+            <a href="{{ url_for('reset_search') }}">Reset Search</a>
         </form>
->>>>>>> origin/master
+        <div class="credentials">
+            <p>Built with Flask and PRAW. Data sourced from Reddit.</p>
+        </div>
     </div>
 </body>
 </html>
-
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=======
->>>>>>> origin/master
